@@ -1,5 +1,4 @@
-package ie.setu.main
-
+package ie.setu
 
 fun main() {
     println("Developer Idea App")

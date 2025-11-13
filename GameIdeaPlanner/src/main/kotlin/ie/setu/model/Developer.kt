@@ -7,5 +7,5 @@ data class Developer(
     var jobTitle: String,
     var salary: Double,
     var yearsExperience: Int,
-    var isRetired: Boolean = false 
+    var isRetired: Boolean = false
 )

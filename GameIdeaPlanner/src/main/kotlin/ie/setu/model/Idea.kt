@@ -9,5 +9,6 @@ data class Idea(
     var projectEffortHours: Int,
     var actualEffortHours: Int,
     var projectedCost: Double,
-    var projectedSales: Double
+    var projectedSales: Double,
+    var status : String
 )

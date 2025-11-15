@@ -22,9 +22,11 @@ class DeveloperManager
     {
         for(dev in developers)
         {
-            dev.developerId == id
-            developers.remove(dev)
-            return true
+            if(dev.developerId == id)
+            {
+                developers.remove(dev)
+                return true
+            }
         }
         return false
     }
@@ -48,7 +50,7 @@ class DeveloperManager
                 return true
             }
         }
-        //id not found
+        //iD not found
         return false;
     }
     // find a developer by id from a list

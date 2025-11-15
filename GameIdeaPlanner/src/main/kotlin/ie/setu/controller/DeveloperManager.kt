@@ -31,7 +31,8 @@ class DeveloperManager
 
     fun update(id: Int, dev: Developer) : Boolean
     {
-        for (d in developers) {
+        for (d in developers)
+        {
             //find developer if exist
             if (d.developerId == id) {
                 // check job title
@@ -50,5 +51,10 @@ class DeveloperManager
         //id not found
         return false;
     }
+    // find a developer by id from a list
+    fun findById(id: Int): Developer? = developers.find { it.developerId == id }
+
+    // get all developers
+    fun getListDevelopers(): List<Developer> = developers
 
 }

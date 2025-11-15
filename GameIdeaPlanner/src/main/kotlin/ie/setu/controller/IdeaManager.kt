@@ -10,7 +10,8 @@ class IdeaManager
 
     fun addIdea(idea: Idea) : Boolean
     {
-        if(!ValidationUtils.validateGenre(idea.genre))
+        if(!ValidationUtils.validateGenre(idea.genre) &&
+            !ValidationUtils.validateStatus(idea.status))
         {
             return false
         }

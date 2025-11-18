@@ -20,15 +20,7 @@ class DeveloperManager
 
     fun remove(id :Int) : Boolean
     {
-        for(dev in developers)
-        {
-            if(dev.developerId == id)
-            {
-                developers.remove(dev)
-                return true
-            }
-        }
-        return false
+        return developers.removeIf { it.developerId == id }
     }
 
     fun update(id: Int, dev: Developer) : Boolean

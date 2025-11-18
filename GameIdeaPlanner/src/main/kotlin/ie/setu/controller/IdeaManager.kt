@@ -10,7 +10,7 @@ class IdeaManager
 
     fun addIdea(idea: Idea) : Boolean
     {
-        if(!ValidationUtils.validateGenre(idea.genre) &&
+        if(!ValidationUtils.validateGenre(idea.genre) ||
             !ValidationUtils.validateStatus(idea.status))
         {
             return false
@@ -21,15 +21,7 @@ class IdeaManager
 
     fun remove(id : Int) : Boolean
     {
-        for (i in ideas)
-        {
-            if(i.ideaId == id)
-            {
-                ideas.remove(i)
-                return true
-            }
-        }
-        return false
+        return ideas.removeIf { it.ideaId == id }
     }
 
     fun update(id : Int, idea : Idea) : Boolean

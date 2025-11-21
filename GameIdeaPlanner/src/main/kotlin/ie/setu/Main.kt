@@ -24,7 +24,10 @@ fun main() {
         {
          1-> developersMenu(devManager, ideaManager, input)
          2-> ideasMenu(ideaManager, input)
-         0 -> { println("Exit"); return }
+         0 ->
+             {
+                 println("Exit"); return
+             }
 
             else -> println("Option incorrect !")
         }
@@ -57,7 +60,9 @@ fun developersMenu(
                     print("Enter yearsExperience: "); val years = input.nextInt()
                     print("Is retired (true/false): "); val retired = input.nextBoolean()
                     val dev = ie.setu.model.Developer(id, name, jobTitle, salary, years, retired)
-                    if (devManager.add(dev)) println("Added!") else println("Invalid jobTitle!")
+                    if (devManager.add(dev))
+                        println("Added!")
+                    else println("Invalid jobTitle!")
                 }
                 2 -> {
                     var list = devManager.getListDevelopers()
@@ -98,7 +103,10 @@ fun developersMenu(
                 }
                 5 -> {
                     print("Enter id to delete: "); val id = input.nextInt()
-                    if (devManager.remove(id)) println("Deleted!") else println("Not found.")
+                    if (devManager.remove(id))
+                        println("Deleted!")
+                    else
+                        println("Not found.")
                 }
                 6 -> {
                     print("Enter jobTitle: ")
@@ -131,8 +139,11 @@ fun ideasMenu(
     while (true) {
         println("\n--- Ideas Menu ---")
         println("1. Add idea")
+
         println("2. List all ideas")
+
         println("3. Find idea by ID")
+
         println("4. Update idea")
         println("5. Delete idea")
         println("6. List by genre")
@@ -142,16 +153,26 @@ fun ideasMenu(
         print("Choose option: ")
         when (input.nextInt()) {
             1 -> {
-                print("Enter id: "); val id = input.nextInt()
-                print("Enter description: "); val desc = input.next()
-                print("Enter minBudget: "); val minBudget = input.nextDouble()
-                print("Enter developerId: "); val devId = input.nextInt()
-                print("Enter genre: "); val genre = input.next()
-                print("Enter projectEffortHours: "); val effort = input.nextInt()
-                print("Enter actualEffortHours: "); val actual = input.nextInt()
-                print("Enter projectedCost: "); val cost = input.nextDouble()
-                print("Enter projectedSales: "); val sales = input.nextDouble()
-                print("Enter status: "); val status = input.next()
+                print("Enter id: ");
+                val id = input.nextInt()
+                print("Enter description: ");
+                val desc = input.next()
+                print("Enter minBudget: ");
+                val minBudget = input.nextDouble()
+                print("Enter developerId: ");
+                val devId = input.nextInt()
+                print("Enter genre: ");
+                val genre = input.next()
+                print("Enter projectEffortHours: ");
+                val effort = input.nextInt()
+                print("Enter actualEffortHours: ");
+                val actual = input.nextInt()
+                print("Enter projectedCost: ");
+                val cost = input.nextDouble()
+                print("Enter projectedSales: ");
+                val sales = input.nextDouble()
+                print("Enter status: ");
+                val status = input.next()
                 val idea = ie.setu.model.Idea(id, desc, minBudget, devId, genre, effort, actual, cost, sales, status)
                 if (ideaManager.addIdea(idea)) println("Added!") else println("Invalid genre or status!")
             }
@@ -256,16 +277,43 @@ fun ideasMenu(
 
 fun readInt(prompt: String): Int {
     print(prompt)
-    return readLine()?.toIntOrNull() ?: 0
+    val input = readLine()
+    if (input != null && input.isNotEmpty()) {
+        return try {
+            input.toInt()
+        } catch (e: NumberFormatException) {
+            println("Invalid number, using 0.")
+            0
+        }
+    }
+    return 0
 }
+
 
 fun readDouble(prompt: String): Double {
     print(prompt)
-    return readLine()?.toDoubleOrNull() ?: 0.0
+    val input = readLine()
+
+    return try {
+        if (input != null && input.isNotEmpty()) {
+            input.toDouble()
+        } else {
+            0.0
+        }
+    } catch (e: Exception) {
+        println("Invalid number, using 0.0.")
+        0.0
+    }
 }
+
 
 fun readString(prompt: String): String {
     print(prompt)
-    return readLine() ?: ""
+    val input = readLine()
+    if (input != null && input.isNotEmpty()) {
+        return input
+    }
+    return ""
 }
+
 

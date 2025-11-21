@@ -44,10 +44,16 @@ class IdeaManager
         return false;
     }
 
-    fun findById(id : Int) : Idea?
+    fun findById(id: Int): Idea?
     {
-        return ideas.find { it.ideaId == id }
+        for (idea in ideas) {
+            if (idea.ideaId == id) {
+                return idea
+            }
+        }
+        return null
     }
+
 
     fun getListIdeas() : List<Idea> = ideas
 }

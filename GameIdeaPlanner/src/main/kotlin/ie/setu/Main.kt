@@ -2,8 +2,6 @@ package ie.setu
 
 import ie.setu.controller.DeveloperManager
 import ie.setu.controller.IdeaManager
-import ie.setu.model.Developer
-import ie.setu.model.Idea
 import java.util.Scanner
 
 fun main() {
@@ -52,7 +50,7 @@ fun developersMenu(
             println("0. Back to main menu")
             print("Choose option: ")
             when (input.nextInt()) {
-                1 -> {
+                1 -> { // Add developer
                     print("Enter id: "); val id = input.nextInt()
                     print("Enter name: "); val name = input.next()
                     print("Enter jobTitle: "); val jobTitle = input.next()
@@ -64,7 +62,7 @@ fun developersMenu(
                         println("Added!")
                     else println("Invalid jobTitle!")
                 }
-                2 -> {
+                2 -> { //List all developers
                     var list = devManager.getListDevelopers()
                     if (list.isEmpty()) {
                         println("No developers.")
@@ -75,12 +73,12 @@ fun developersMenu(
                         }
                     }
                 }
-                3 -> {
+                3 -> { //Find developer by ID
                     print("Enter id: "); val id = input.nextInt()
                     val dev = devManager.findById(id)
                     if (dev != null) println(dev) else println("Not found.")
                 }
-                4 -> {
+                4 -> { //Update developer
                     print("Enter id to update: ")
                     val id = input.nextInt()
                     print("Enter new name: ")
@@ -101,14 +99,14 @@ fun developersMenu(
                         println("Nothing changed or bad data.")
                     }
                 }
-                5 -> {
+                5 -> { //Delete developer
                     print("Enter id to delete: "); val id = input.nextInt()
                     if (devManager.remove(id))
                         println("Deleted!")
                     else
                         println("Not found.")
                 }
-                6 -> {
+                6 -> { //List by jobTitle
                     print("Enter jobTitle: ")
                     val jobTitle = input.next()
                     val result = ArrayList<ie.setu.model.Developer>()
@@ -152,7 +150,7 @@ fun ideasMenu(
         println("0. Back to main menu")
         print("Choose option: ")
         when (input.nextInt()) {
-            1 -> {
+            1 -> { //1. Add idea
                 print("Enter id: ");
                 val id = input.nextInt()
                 print("Enter description: ");
@@ -176,20 +174,22 @@ fun ideasMenu(
                 val idea = ie.setu.model.Idea(id, desc, minBudget, devId, genre, effort, actual, cost, sales, status)
                 if (ideaManager.addIdea(idea)) println("Added!") else println("Invalid genre or status!")
             }
-            2 -> {
+            2 -> { //2. List all ideas
                 val list = ideaManager.getListIdeas()
-                if (list.isEmpty()) {
+                if (list.isEmpty())
+                {
                     println("No ideas.")
-                } else {
+                } else
+                {
                     for (i in list) println(i)
                 }
             }
-            3 -> {
+            3 -> { //3. Find idea by ID
                 print("Enter id: "); val id = input.nextInt()
                 val idea = ideaManager.findById(id)
                 if (idea != null) println(idea) else println("Not found.")
             }
-            4 -> {
+            4 -> { //4. Update idea
                 print("Enter id to update: ");
                 val id = input.nextInt()
 
@@ -227,11 +227,11 @@ fun ideasMenu(
                 else
                     println("Not found or bad data.")
             }
-            5 -> {
+            5 -> { //5. Delete idea
                 print("Enter id to delete: "); val id = input.nextInt()
                 if (ideaManager.remove(id)) println("Deleted!") else println("Not found.")
             }
-            6 -> {
+            6 -> { //6. List by genre
                 print("Enter genre: ")
                 val genre = input.next()
                 val result = ArrayList<ie.setu.model.Idea>()
@@ -248,7 +248,7 @@ fun ideasMenu(
                     for (r in result) println(r)
                 }
             }
-            7 -> {
+            7 -> { //7. Report: count & sales by developer
                 print("Enter developerId: ")
                 val devId = input.nextInt()
                 val all = ideaManager.getListIdeas()
@@ -265,7 +265,7 @@ fun ideasMenu(
                 }
                 println("Ideas: $count, Total effort: $sumEffort, Total sales: $sumSales")
             }
-            8 -> {
+            8 -> { //8. Report: retired devs completed ideas
 
                 println("Report for retired devs: (not implemented, need devManager)")
             }
@@ -273,47 +273,6 @@ fun ideasMenu(
             else -> println("Wrong option!")
         }
     }
-}
-
-fun readInt(prompt: String): Int {
-    print(prompt)
-    val input = readLine()
-    if (input != null && input.isNotEmpty()) {
-        return try {
-            input.toInt()
-        } catch (e: NumberFormatException) {
-            println("Invalid number, using 0.")
-            0
-        }
-    }
-    return 0
-}
-
-
-fun readDouble(prompt: String): Double {
-    print(prompt)
-    val input = readLine()
-
-    return try {
-        if (input != null && input.isNotEmpty()) {
-            input.toDouble()
-        } else {
-            0.0
-        }
-    } catch (e: Exception) {
-        println("Invalid number, using 0.0.")
-        0.0
-    }
-}
-
-
-fun readString(prompt: String): String {
-    print(prompt)
-    val input = readLine()
-    if (input != null && input.isNotEmpty()) {
-        return input
-    }
-    return ""
 }
 
 

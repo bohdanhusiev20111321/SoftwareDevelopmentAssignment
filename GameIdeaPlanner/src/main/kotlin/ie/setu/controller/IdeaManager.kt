@@ -24,14 +24,8 @@ class IdeaManager
     fun addIdea(idea: Idea) : Boolean
     {
         // do not allow duplicate ids
-        for (i in ideas) {
-            if (i.ideaId == idea.ideaId) return false
-        }
-        if(!ValidationUtils.validateGenre(idea.genre) ||
-            !ValidationUtils.validateStatus(idea.status))
-        {
-            return false
-        }
+        if (ideas.any { it.ideaId == idea.ideaId }) return false
+        if (!ValidationUtils.validateGenre(idea.genre) || !ValidationUtils.validateStatus(idea.status)) return false
         ideas.add(idea)
         return true
     }
@@ -41,28 +35,17 @@ class IdeaManager
         return ideas.removeIf { it.ideaId == id }
     }
 
-    fun update(id : Int, idea : Idea) : Boolean
-    {
-        for(i in ideas)
-        {
-            if(i.ideaId == id)
-            {
-                // validate genre and status for updates
-                if(!ValidationUtils.validateGenre(idea.genre) || !ValidationUtils.validateStatus(idea.status)) {
-                    return false
-                }
-                i.genre = idea.genre
-                i.description = idea.description
-                i.developerId = idea.developerId
-                i.minimumBudget= idea.minimumBudget
-                i.actualEffortHours = idea.actualEffortHours
-                i.projectedCost = idea.projectedCost
-                i.projectedSales = idea.projectedSales
-                return true
-            }
-        }
-        //iD not found
-        return false;
+    fun update(id: Int, idea: Idea): Boolean {
+        val found = ideas.find { it.ideaId == id } ?: return false
+        if (!ValidationUtils.validateGenre(idea.genre) || !ValidationUtils.validateStatus(idea.status)) return false
+        found.genre = idea.genre
+        found.description = idea.description
+        found.developerId = idea.developerId
+        found.minimumBudget = idea.minimumBudget
+        found.actualEffortHours = idea.actualEffortHours
+        found.projectedCost = idea.projectedCost
+        found.projectedSales = idea.projectedSales
+        return true
     }
 
     fun findById(id: Int): Idea?
@@ -77,6 +60,16 @@ class IdeaManager
 
 
     fun getListIdeas() : List<Idea> = ideas
+
+    // check if developer has any ideas
+    fun hasIdeasForDeveloper(developerId: Int): Boolean = ideas.any { it.developerId == developerId }
+
+    // remove all ideas for a developer, return count removed
+    fun removeByDeveloper(developerId: Int): Int {
+        val count = ideas.count { it.developerId == developerId }
+        ideas.removeAll { it.developerId == developerId }
+        return count
+    }
 
     // Save ideas list to JSON using JsonFileStore
     fun saveToFile(path: String): Boolean {

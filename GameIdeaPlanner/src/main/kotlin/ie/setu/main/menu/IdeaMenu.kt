@@ -43,6 +43,11 @@ fun ideasMenu(
                 val desc = readString("Enter description: ")
                 val minBudget = readDouble("Enter minBudget: ")
                 val devId = readInt("Enter developerId: ")
+                // check developer exists
+                if (devManager.findById(devId) == null) {
+                    println("Developer with id $devId not found. Cannot add idea.")
+                    continue
+                }
                 val genre = readString("Enter genre: ")
                 val effort = readInt("Enter projectEffortHours: ")
                 val actual = readInt("Enter actualEffortHours: ")
@@ -54,7 +59,7 @@ fun ideasMenu(
             }
             2 -> {
                 val list = ideaManager.getListIdeas()
-                if (list.isEmpty()) println("No ideas.") else for (i in list) println(i)
+                if (list.isEmpty()) println("No ideas.") else list.forEach { println(it) }
             }
             3 -> {
                 val id = readInt("Enter id: ")
@@ -66,6 +71,10 @@ fun ideasMenu(
                 val desc = readString("Enter new description: ")
                 val minBudget = readDouble("Enter new minBudget: ")
                 val devId = readInt("Enter new developerId: ")
+                if (devManager.findById(devId) == null) {
+                    println("Developer with id $devId not found. Cannot update idea with this developerId.")
+                    continue
+                }
                 val genre = readString("Enter new genre: ")
                 val effort = readInt("Enter new projectEffortHours: ")
                 val actual = readInt("Enter new actualEffortHours: ")
@@ -82,18 +91,22 @@ fun ideasMenu(
             }
             6 -> {
                 val genre = readString("Enter genre: ")
-                val result = ArrayList<ie.setu.model.Idea>()
+                val result = arrayListOf<ie.setu.model.Idea>()
                 val all = ideaManager.getListIdeas()
                 for (i in all) if (i.genre.equals(genre, true)) result.add(i)
-                if (result.isEmpty()) println("No ideas with this genre.") else for (r in result) println(r)
+                if (result.isEmpty()) println("No ideas with this genre.") else result.forEach { println(it) }
             }
             7 -> {
                 val devId = readInt("Enter developerId: ")
                 val all = ideaManager.getListIdeas()
-                var count = 0; var sumEffort = 0; var sumSales = 0.0
+                var count = 0
+                var sumEffort = 0
+                var sumSales = 0.0
                 for (i in all) {
                     if (i.developerId == devId) {
-                        count++; sumEffort += i.projectEffortHours; sumSales += i.projectedSales
+                        count++
+                        sumEffort += i.projectEffortHours
+                        sumSales += i.projectedSales
                     }
                 }
                 println("Ideas: $count, Total effort: $sumEffort, Total sales: $sumSales")

@@ -35,13 +35,13 @@ fun main() {
         {
          1-> developersMenu(devManager, ideaManager)
          2-> ideasMenu(ideaManager, devManager)
-         0 ->
-             {
-                 // save on exit
-                 devManager.saveToFile("data/developers.json")
-                 ideaManager.saveToFile("data/ideas.json")
-                 println("Exit"); return
-             }
+         0 -> {
+             // save on exit
+             devManager.saveToFile("data/developers.json")
+             ideaManager.saveToFile("data/ideas.json")
+             println("Exit")
+             return
+         }
 
             else -> println("Option incorrect !")
         }

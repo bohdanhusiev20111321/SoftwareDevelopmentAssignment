@@ -1,6 +1,52 @@
 package ie.setu
 
-// Placeholder file
-// Application entry point moved to ie.setu.main.menu.Main
-// This file intentionally contains no executable code.
+/*
+ -----------------------------
+ |  GAME IDEA PLANNER - MAIN |
+ |                           |
+ | 1) Developers menu        |
+ | 2) Ideas menu             |
+ | 0) Exit                   |
+ -----------------------------
+ */
+
+import ie.setu.controller.DeveloperManager
+import ie.setu.controller.IdeaManager
+import ie.setu.main.menu.developersMenu
+import ie.setu.main.menu.ideasMenu
+import ie.setu.utils.readInt
+
+fun main() {
+
+    val devManager = DeveloperManager()
+    val ideaManager = IdeaManager()
+
+    // try to load saved data ( startup load)
+    devManager.loadFromFile("data/developers.json")
+    ideaManager.loadFromFile("data/ideas.json")
+
+    //  helpers for user input
+    while (true)
+    {
+        println("Hi ! Choose your option :")
+        println("1. Developers menu")
+        println("2. Ideas menu")
+        println("0. Exit")
+
+        when(readInt("Choose option: "))
+        {
+         1-> developersMenu(devManager, ideaManager)
+         2-> ideasMenu(ideaManager, devManager)
+         0 -> {
+             // save on exit
+             devManager.saveToFile("data/developers.json")
+             ideaManager.saveToFile("data/ideas.json")
+             println("Exit")
+             return
+         }
+
+            else -> println("Option incorrect !")
+        }
+}
+    }
 

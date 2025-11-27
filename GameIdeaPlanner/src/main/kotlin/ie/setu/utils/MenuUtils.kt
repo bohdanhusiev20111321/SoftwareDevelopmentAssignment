@@ -8,7 +8,7 @@ package ie.setu.utils
  | readString               |
  |                          |
  | Small utilities to get   |
- | simple user input        |
+ | user input        |
  -------------------------
  */
 

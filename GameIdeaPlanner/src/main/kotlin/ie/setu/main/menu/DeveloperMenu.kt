@@ -19,6 +19,8 @@ import ie.setu.controller.IdeaManager
 import ie.setu.utils.readInt
 import ie.setu.utils.readDouble
 import ie.setu.utils.readString
+import ie.setu.utils.readBoolean
+import ie.setu.utils.ValidationUtils
 
 
 fun developersMenu(
@@ -37,12 +39,24 @@ fun developersMenu(
         println("0. Back to main menu")
         when (readInt("Choose option: ")) {
             1 -> {
-                val id = readInt("Enter id: ")
+                var id: Int
+                while (true) {
+                    id = readInt("Enter id: ")
+                    if (devManager.findById(id) != null) {
+                        println("ID $id already used. Please choose another id.")
+                        continue
+                    }
+                    break
+                }
                 val name = readString("Enter name: ")
-                val jobTitle = readString("Enter jobTitle: ")
+                var jobTitle = readString("Enter jobTitle: ")
+                while (!ValidationUtils.validateJobTitle(jobTitle)) {
+                    println("Invalid job title. Please enter a valid job title.")
+                    jobTitle = readString("Enter jobTitle: ")
+                }
                 val salary = readDouble("Enter salary: ")
                 val years = readInt("Enter yearsExperience: ")
-                val retired = readString("Is retired (true/false): ").lowercase() == "true"
+                val retired = readBoolean("Is retired (true/false): ")
                 val dev = ie.setu.model.Developer(id, name, jobTitle, salary, years, retired)
                 if (devManager.add(dev)) println("Added!") else println("Invalid jobTitle!")
             }
@@ -60,12 +74,20 @@ fun developersMenu(
                 if (dev != null) println(dev) else println("Not found.")
             }
             4 -> {
-                val id = readInt("Enter id to update: ")
+                var id = readInt("Enter id to update: ")
+                while (devManager.findById(id) == null) {
+                    println("Developer with id $id not found. Enter a valid id.")
+                    id = readInt("Enter id to update: ")
+                }
                 val name = readString("Enter new name: ")
-                val jobTitle = readString("Enter new jobTitle: ")
+                var jobTitle = readString("Enter new jobTitle: ")
+                while (!ValidationUtils.validateJobTitle(jobTitle)) {
+                    println("Invalid job title. Please enter a valid job title.")
+                    jobTitle = readString("Enter new jobTitle: ")
+                }
                 val salary = readDouble("Enter new salary: ")
                 val years = readInt("Enter new yearsExperience: ")
-                val retired = readString("Is retired (true/false): ").lowercase() == "true"
+                val retired = readBoolean("Is retired (true/false): ")
                 val dev = ie.setu.model.Developer(id, name, jobTitle, salary, years, retired)
                 val ok = devManager.update(id, dev)
                 if (ok) println("Updated!") else println("Nothing changed or bad data.")

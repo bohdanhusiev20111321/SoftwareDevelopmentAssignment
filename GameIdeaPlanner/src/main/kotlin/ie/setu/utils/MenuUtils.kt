@@ -14,21 +14,44 @@ package ie.setu.utils
 
 fun readInt(prompt: String): Int 
 {
-    print(prompt)
-    val input = readLine()
-    return input?.toIntOrNull() ?: 0
+    while (true) {
+        print(prompt)
+        val input = readLine()
+        val n = input?.toIntOrNull()
+        if (n != null) return n
+        println("Invalid integer, try again")
+    }
 }
 
 fun readDouble(prompt: String): Double 
 {
-    print(prompt)
-    val input = readLine()
-    return input?.toDoubleOrNull() ?: 0.0
+    while (true) {
+        print(prompt)
+        val input = readLine()
+        val v = input?.toDoubleOrNull()
+        if (v != null) return v
+        println("Invalid number, try again")
+    }
 }
 
 fun readString(prompt: String): String 
 {
-    print(prompt)
-    return readLine() ?: ""
+    while (true) {
+        print(prompt)
+        val input = readLine()
+        if (!input.isNullOrBlank()) return input
+        println("Input cannot be empty, please try again")
+    }
+}
+
+// read boolean value (yes/no or true/false)
+fun readBoolean(prompt: String): Boolean {
+    while (true) {
+        print(prompt)
+        val input = readLine()?.trim()?.lowercase()
+        if (input == "true" || input == "t" || input == "y" || input == "yes") return true
+        if (input == "false" || input == "f" || input == "n" || input == "no") return false
+        println("Please answer true/false or y/n")
+    }
 }
 

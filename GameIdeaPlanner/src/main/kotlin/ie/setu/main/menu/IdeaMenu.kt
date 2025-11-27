@@ -21,6 +21,7 @@ import ie.setu.controller.DeveloperManager
 import ie.setu.utils.readInt
 import ie.setu.utils.readDouble
 import ie.setu.utils.readString
+import ie.setu.utils.ValidationUtils
 
 fun ideasMenu(
     ideaManager: IdeaManager,
@@ -39,21 +40,37 @@ fun ideasMenu(
         println("0. Back to main menu")
         when (readInt("Choose option: ")) {
             1 -> {
-                val id = readInt("Enter id: ")
+                var id: Int
+                while (true) {
+                    id = readInt("Enter id: ")
+                    if (ideaManager.findById(id) != null) {
+                        println("Idea id $id already exists. Please use a different id.")
+                        continue
+                    }
+                    break
+                }
                 val desc = readString("Enter description: ")
                 val minBudget = readDouble("Enter minBudget: ")
-                val devId = readInt("Enter developerId: ")
-                // check developer exists
-                if (devManager.findById(devId) == null) {
-                    println("Developer with id $devId not found. Cannot add idea.")
-                    continue
+                var devId = readInt("Enter developerId: ")
+                // check developer exists (re-prompt until valid)
+                while (devManager.findById(devId) == null) {
+                    println("Developer with id $devId not found. Please enter an existing developerId.")
+                    devId = readInt("Enter developerId: ")
                 }
-                val genre = readString("Enter genre: ")
+                var genre = readString("Enter genre: ")
+                while (!ValidationUtils.validateGenre(genre)) {
+                    println("Invalid genre. Please enter a valid genre.")
+                    genre = readString("Enter genre: ")
+                }
                 val effort = readInt("Enter projectEffortHours: ")
                 val actual = readInt("Enter actualEffortHours: ")
                 val cost = readDouble("Enter projectedCost: ")
                 val sales = readDouble("Enter projectedSales: ")
-                val status = readString("Enter status: ")
+                var status = readString("Enter status: ")
+                while (!ValidationUtils.validateStatus(status)) {
+                    println("Invalid status. Please enter a valid status.")
+                    status = readString("Enter status: ")
+                }
                 val idea = ie.setu.model.Idea(id, desc, minBudget, devId, genre, effort, actual, cost, sales, status)
                 if (ideaManager.addIdea(idea)) println("Added!") else println("Invalid genre or status!")
             }
@@ -67,20 +84,32 @@ fun ideasMenu(
                 if (idea != null) println(idea) else println("Not found.")
             }
             4 -> {
-                val id = readInt("Enter id to update: ")
+                var id = readInt("Enter id to update: ")
+                while (ideaManager.findById(id) == null) {
+                    println("Idea with id $id not found. Enter a valid idea id.")
+                    id = readInt("Enter id to update: ")
+                }
                 val desc = readString("Enter new description: ")
                 val minBudget = readDouble("Enter new minBudget: ")
-                val devId = readInt("Enter new developerId: ")
-                if (devManager.findById(devId) == null) {
-                    println("Developer with id $devId not found. Cannot update idea with this developerId.")
-                    continue
+                var devId = readInt("Enter new developerId: ")
+                while (devManager.findById(devId) == null) {
+                    println("Developer with id $devId not found. Please enter an existing developerId.")
+                    devId = readInt("Enter new developerId: ")
                 }
-                val genre = readString("Enter new genre: ")
+                var genre = readString("Enter new genre: ")
+                while (!ValidationUtils.validateGenre(genre)) {
+                    println("Invalid genre. Please enter a valid genre.")
+                    genre = readString("Enter new genre: ")
+                }
                 val effort = readInt("Enter new projectEffortHours: ")
                 val actual = readInt("Enter new actualEffortHours: ")
                 val cost = readDouble("Enter new projectedCost: ")
                 val sales = readDouble("Enter new projectedSales: ")
-                val status = readString("Enter new status: ")
+                var status = readString("Enter new status: ")
+                while (!ValidationUtils.validateStatus(status)) {
+                    println("Invalid status. Please enter a valid status.")
+                    status = readString("Enter new status: ")
+                }
                 val idea = ie.setu.model.Idea(id, desc, minBudget, devId, genre, effort, actual, cost, sales, status)
                 val ok = ideaManager.update(id, idea)
                 if (ok) println("Updated!") else println("Not found or bad data.")

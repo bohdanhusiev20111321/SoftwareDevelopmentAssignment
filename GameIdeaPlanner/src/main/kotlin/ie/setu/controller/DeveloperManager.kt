@@ -1,5 +1,15 @@
 package ie.setu.controller
 
+/*
+ ---------------------------------
+ |  DeveloperManager                |
+ |                                  |
+ | - holds an ArrayList of Developer|    
+ | - provides add / remove / update |
+ | - find and list helpers          |
+ ---------------------------------
+ */
+
 import ie.setu.utils.ValidationUtils
 import ie.setu.model.Developer
 
@@ -10,6 +20,10 @@ class DeveloperManager
 
     fun add(dev:Developer) : Boolean
     {
+        // don't allow duplicate ids
+        for (d in developers) {
+            if (d.developerId == dev.developerId) return false
+        }
         if(!ValidationUtils.validateJobTitle(dev.jobTitle))
         {
             return false

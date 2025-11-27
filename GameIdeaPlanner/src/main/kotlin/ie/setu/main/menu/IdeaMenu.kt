@@ -1,13 +1,30 @@
 package ie.setu.main.menu
 
+/*
+ -------------------------------------------------
+ |  GAME IDEA PLANNER - IDEAS MENU               |
+ |                                               |
+ | 1) Add idea                                   |
+ | 2) List all ideas                             |
+ | 3) Find idea by ID                            |
+ | 4) Update idea                                |
+ | 5) Delete idea                                |
+ | 6) List by genre                              |
+ | 7) Report: count & sales by developer         |
+ | 8) Report: retired devs completed ideas       |
+ | 0) Back to main menu                          |
+ -------------------------------------------------
+ */
+
 import ie.setu.controller.IdeaManager
 import ie.setu.controller.DeveloperManager
-import java.util.Scanner
+import ie.setu.utils.readInt
+import ie.setu.utils.readDouble
+import ie.setu.utils.readString
 
 fun ideasMenu(
     ideaManager: IdeaManager,
-    devManager: DeveloperManager,
-    input: Scanner
+    devManager: DeveloperManager
 ) {
     while (true) {
         println("\n--- Ideas Menu ---")
@@ -20,20 +37,18 @@ fun ideasMenu(
         println("7. Report: count & sales by developer")
         println("8. Report: retired devs completed ideas")
         println("0. Back to main menu")
-        print("Choose option: ")
-
-        when (input.nextInt()) {
+        when (readInt("Choose option: ")) {
             1 -> {
-                print("Enter id: "); val id = input.nextInt()
-                print("Enter description: "); val desc = input.next()
-                print("Enter minBudget: "); val minBudget = input.nextDouble()
-                print("Enter developerId: "); val devId = input.nextInt()
-                print("Enter genre: "); val genre = input.next()
-                print("Enter projectEffortHours: "); val effort = input.nextInt()
-                print("Enter actualEffortHours: "); val actual = input.nextInt()
-                print("Enter projectedCost: "); val cost = input.nextDouble()
-                print("Enter projectedSales: "); val sales = input.nextDouble()
-                print("Enter status: "); val status = input.next()
+                val id = readInt("Enter id: ")
+                val desc = readString("Enter description: ")
+                val minBudget = readDouble("Enter minBudget: ")
+                val devId = readInt("Enter developerId: ")
+                val genre = readString("Enter genre: ")
+                val effort = readInt("Enter projectEffortHours: ")
+                val actual = readInt("Enter actualEffortHours: ")
+                val cost = readDouble("Enter projectedCost: ")
+                val sales = readDouble("Enter projectedSales: ")
+                val status = readString("Enter status: ")
                 val idea = ie.setu.model.Idea(id, desc, minBudget, devId, genre, effort, actual, cost, sales, status)
                 if (ideaManager.addIdea(idea)) println("Added!") else println("Invalid genre or status!")
             }
@@ -42,38 +57,38 @@ fun ideasMenu(
                 if (list.isEmpty()) println("No ideas.") else for (i in list) println(i)
             }
             3 -> {
-                print("Enter id: "); val id = input.nextInt()
+                val id = readInt("Enter id: ")
                 val idea = ideaManager.findById(id)
                 if (idea != null) println(idea) else println("Not found.")
             }
             4 -> {
-                print("Enter id to update: "); val id = input.nextInt()
-                print("Enter new description: "); val desc = input.next()
-                print("Enter new minBudget: "); val minBudget = input.nextDouble()
-                print("Enter new developerId: "); val devId = input.nextInt()
-                print("Enter new genre: "); val genre = input.next()
-                print("Enter new projectEffortHours: "); val effort = input.nextInt()
-                print("Enter new actualEffortHours: "); val actual = input.nextInt()
-                print("Enter new projectedCost: "); val cost = input.nextDouble()
-                print("Enter new projectedSales: "); val sales = input.nextDouble()
-                print("Enter new status: "); val status = input.next()
+                val id = readInt("Enter id to update: ")
+                val desc = readString("Enter new description: ")
+                val minBudget = readDouble("Enter new minBudget: ")
+                val devId = readInt("Enter new developerId: ")
+                val genre = readString("Enter new genre: ")
+                val effort = readInt("Enter new projectEffortHours: ")
+                val actual = readInt("Enter new actualEffortHours: ")
+                val cost = readDouble("Enter new projectedCost: ")
+                val sales = readDouble("Enter new projectedSales: ")
+                val status = readString("Enter new status: ")
                 val idea = ie.setu.model.Idea(id, desc, minBudget, devId, genre, effort, actual, cost, sales, status)
                 val ok = ideaManager.update(id, idea)
                 if (ok) println("Updated!") else println("Not found or bad data.")
             }
             5 -> {
-                print("Enter id to delete: "); val id = input.nextInt()
+                val id = readInt("Enter id to delete: ")
                 if (ideaManager.remove(id)) println("Deleted!") else println("Not found.")
             }
             6 -> {
-                print("Enter genre: "); val genre = input.next()
+                val genre = readString("Enter genre: ")
                 val result = ArrayList<ie.setu.model.Idea>()
                 val all = ideaManager.getListIdeas()
                 for (i in all) if (i.genre.equals(genre, true)) result.add(i)
                 if (result.isEmpty()) println("No ideas with this genre.") else for (r in result) println(r)
             }
             7 -> {
-                print("Enter developerId: "); val devId = input.nextInt()
+                val devId = readInt("Enter developerId: ")
                 val all = ideaManager.getListIdeas()
                 var count = 0; var sumEffort = 0; var sumSales = 0.0
                 for (i in all) {

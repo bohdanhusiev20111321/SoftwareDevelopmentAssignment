@@ -1,16 +1,25 @@
 package ie.setu.main.menu
 
+/*
+ -----------------------------
+ |  GAME IDEA PLANNER - MAIN |
+ |                           |
+ | 1) Developers menu        |
+ | 2) Ideas menu             |
+ | 0) Exit                   |
+ -----------------------------
+ */
+
 import ie.setu.controller.DeveloperManager
 import ie.setu.controller.IdeaManager
-import java.util.Scanner
+import ie.setu.utils.readInt
 
 fun main() {
 
     val devManager = DeveloperManager()
     val ideaManager = IdeaManager()
 
-    val input = Scanner(System.`in`)
-
+    // simple helpers for user input
     while (true)
     {
         println("Hi ! Choose your option :")
@@ -18,10 +27,10 @@ fun main() {
         println("2. Ideas menu")
         println("0. Exit")
 
-        when(input.nextInt())
+        when(readInt("Choose option: "))
         {
-         1-> developersMenu(devManager, ideaManager, input)
-         2-> ideasMenu(ideaManager, devManager, input)
+         1-> developersMenu(devManager, ideaManager)
+         2-> ideasMenu(ideaManager, devManager)
          0 ->
              {
                  println("Exit"); return

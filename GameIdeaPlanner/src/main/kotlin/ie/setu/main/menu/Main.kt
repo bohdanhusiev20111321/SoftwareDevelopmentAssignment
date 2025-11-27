@@ -19,6 +19,10 @@ fun main() {
     val devManager = DeveloperManager()
     val ideaManager = IdeaManager()
 
+    // try to load saved data (simple startup load)
+    devManager.loadFromFile("data/developers.json")
+    ideaManager.loadFromFile("data/ideas.json")
+
     // simple helpers for user input
     while (true)
     {
@@ -33,6 +37,9 @@ fun main() {
          2-> ideasMenu(ideaManager, devManager)
          0 ->
              {
+                 // save on exit
+                 devManager.saveToFile("data/developers.json")
+                 ideaManager.saveToFile("data/ideas.json")
                  println("Exit"); return
              }
 

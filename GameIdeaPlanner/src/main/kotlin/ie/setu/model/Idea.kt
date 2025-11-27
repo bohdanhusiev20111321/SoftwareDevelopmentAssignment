@@ -1,5 +1,8 @@
 package ie.setu.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Idea(
     val ideaId: Int,
     var description: String,

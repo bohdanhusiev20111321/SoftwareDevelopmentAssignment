@@ -11,6 +11,9 @@ package ie.setu.controller
  */
 
 import ie.setu.utils.ValidationUtils
+import ie.setu.utils.JsonFileStore
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
 import ie.setu.model.Developer
 
 class DeveloperManager
@@ -64,5 +67,29 @@ class DeveloperManager
 
     // get all developers
     fun getListDevelopers(): List<Developer> = developers
+
+    // Save developers to json file using JsonFileStore
+    fun saveToFile(path: String): Boolean {
+        val json = Json { prettyPrint = true }
+        val text = json.encodeToString(ListSerializer(Developer.serializer()), developers)
+        val store = JsonFileStore()
+        return store.saveText(path, text)
+    }
+
+    // Load developers from json file, replace current list
+    fun loadFromFile(path: String): Boolean {
+        val store = JsonFileStore()
+        val text = store.loadText(path) ?: return false
+        return try {
+            val json = Json { ignoreUnknownKeys = true }
+            val list = json.decodeFromString(ListSerializer(Developer.serializer()), text)
+            developers.clear()
+            developers.addAll(list)
+            true
+        } catch (e: Exception) {
+            println("Error loading developers: ${e.message}")
+            false
+        }
+    }
 
 }

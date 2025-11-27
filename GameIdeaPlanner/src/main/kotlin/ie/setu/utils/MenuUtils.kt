@@ -1,4 +1,16 @@
-package ie.setu.main.menu
+package ie.setu.utils
+
+/*
+ -------------------------
+ |  MENU HELPERS            |
+ |                          |  
+ | readInt, readDouble      |
+ | readString               |
+ |                          |
+ | Small utilities to get   |
+ | simple user input        |
+ -------------------------
+ */
 
 fun readInt(prompt: String): Int 
 {

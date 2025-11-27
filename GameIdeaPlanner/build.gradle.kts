@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
+    application
 }
 
 group = "ie.setu"
@@ -21,5 +22,9 @@ tasks.test {
 
 kotlin {
     jvmToolchain(17)
+}
+
+application {
+    mainClass.set("ie.setu.main.menu.MainKt")
 }
 

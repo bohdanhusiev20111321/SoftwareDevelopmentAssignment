@@ -23,4 +23,24 @@ class JsonFileStore<T>(private val listSerializer: KSerializer<List<T>>) {
         }
     }
 
+    fun save(path: String, data: List<T>): Boolean {
+        return try 
+        {
+            val file = File(path)
+
+
+            if (file.parentFile != null && !file.parentFile.exists()) {
+                file.parentFile.mkdirs()
+            }
+
+            val text = json.encodeToString(listSerializer, data)
+            file.writeText(text)
+            true
+            
+        } catch (e: Exception) 
+        {
+            println("Error while saving JSON: ${e.message}")
+            false
+        }
+    }
 }

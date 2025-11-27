@@ -1,14 +1,29 @@
 package ie.setu.main.menu
 
+/*
+ -------------------------------------------------
+ |  GAME IDEA PLANNER - DEVELOPERS MENU          |
+ |                                               |
+ | 1) Add developer                              |
+ | 2) List all developers                        |
+ | 3) Find developer by ID                       |
+ | 4) Update developer                           |
+ | 5) Delete developer                           |
+ | 6) List by jobTitle                           |
+ | 0) Back to main menu                          |
+ -------------------------------------------------
+ */
+
 import ie.setu.controller.DeveloperManager
 import ie.setu.controller.IdeaManager
-import java.util.Scanner
+import ie.setu.utils.readInt
+import ie.setu.utils.readDouble
+import ie.setu.utils.readString
 
 
 fun developersMenu(
     devManager: DeveloperManager,
-    ideaManager: IdeaManager,
-    input: Scanner
+    ideaManager: IdeaManager
 ) {
    
     while (true) {
@@ -20,16 +35,14 @@ fun developersMenu(
         println("5. Delete developer")
         println("6. List by jobTitle")
         println("0. Back to main menu")
-        print("Choose option: ")
-
-        when (input.nextInt()) {
+        when (readInt("Choose option: ")) {
             1 -> {
-                print("Enter id: "); val id = input.nextInt()
-                print("Enter name: "); val name = input.next()
-                print("Enter jobTitle: "); val jobTitle = input.next()
-                print("Enter salary: "); val salary = input.nextDouble()
-                print("Enter yearsExperience: "); val years = input.nextInt()
-                print("Is retired (true/false): "); val retired = input.nextBoolean()
+                val id = readInt("Enter id: ")
+                val name = readString("Enter name: ")
+                val jobTitle = readString("Enter jobTitle: ")
+                val salary = readDouble("Enter salary: ")
+                val years = readInt("Enter yearsExperience: ")
+                val retired = readString("Is retired (true/false): ").lowercase() == "true"
                 val dev = ie.setu.model.Developer(id, name, jobTitle, salary, years, retired)
                 if (devManager.add(dev)) println("Added!") else println("Invalid jobTitle!")
             }
@@ -42,28 +55,27 @@ fun developersMenu(
                 }
             }
             3 -> {
-                print("Enter id: "); val id = input.nextInt()
+                val id = readInt("Enter id: ")
                 val dev = devManager.findById(id)
                 if (dev != null) println(dev) else println("Not found.")
             }
             4 -> {
-                print("Enter id to update: ")
-                val id = input.nextInt()
-                print("Enter new name: "); val name = input.next()
-                print("Enter new jobTitle: "); val jobTitle = input.next()
-                print("Enter new salary: "); val salary = input.nextDouble()
-                print("Enter new yearsExperience: "); val years = input.nextInt()
-                print("Is retired (true/false): "); val retired = input.nextBoolean()
+                val id = readInt("Enter id to update: ")
+                val name = readString("Enter new name: ")
+                val jobTitle = readString("Enter new jobTitle: ")
+                val salary = readDouble("Enter new salary: ")
+                val years = readInt("Enter new yearsExperience: ")
+                val retired = readString("Is retired (true/false): ").lowercase() == "true"
                 val dev = ie.setu.model.Developer(id, name, jobTitle, salary, years, retired)
                 val ok = devManager.update(id, dev)
                 if (ok) println("Updated!") else println("Nothing changed or bad data.")
             }
             5 -> {
-                print("Enter id to delete: "); val id = input.nextInt()
+                val id = readInt("Enter id to delete: ")
                 if (devManager.remove(id)) println("Deleted!") else println("Not found.")
             }
             6 -> {
-                print("Enter jobTitle: "); val jobTitle = input.next()
+                val jobTitle = readString("Enter jobTitle: ")
                 val result = ArrayList<ie.setu.model.Developer>()
                 val all = devManager.getListDevelopers()
                 for (d in all) if (d.jobTitle.equals(jobTitle, true)) result.add(d)

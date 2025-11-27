@@ -1,5 +1,15 @@
 package ie.setu.controller
 
+/*
+ ---------------------------------
+ |  IdeaManager                    |
+ |                                 |
+ | - keeps ArrayList of Idea       |
+ | - add / remove / update / find  |
+ | - small reports and listings    |
+ ---------------------------------
+ */
+
 import ie.setu.model.Idea
 import ie.setu.utils.ValidationUtils
 
@@ -10,6 +20,10 @@ class IdeaManager
 
     fun addIdea(idea: Idea) : Boolean
     {
+        // do not allow duplicate ids
+        for (i in ideas) {
+            if (i.ideaId == idea.ideaId) return false
+        }
         if(!ValidationUtils.validateGenre(idea.genre) ||
             !ValidationUtils.validateStatus(idea.status))
         {
@@ -30,6 +44,10 @@ class IdeaManager
         {
             if(i.ideaId == id)
             {
+                // validate genre and status for updates
+                if(!ValidationUtils.validateGenre(idea.genre) || !ValidationUtils.validateStatus(idea.status)) {
+                    return false
+                }
                 i.genre = idea.genre
                 i.description = idea.description
                 i.developerId = idea.developerId

@@ -73,32 +73,29 @@ class DeveloperManager
             false
         }
     }
-<<<<<<< Updated upstream
+
     //  For tests
     fun numberOfDevelopersForTest(): Int = developers.size
 
-=======
->>>>>>> Stashed changes
+
     fun listDevelopersForTest(): String {
         if (developers.isEmpty()) {
             return "No developers"
         }
 
         var output = ""
-<<<<<<< Updated upstream
+
         for (dev in developers) {
             output += dev.developerId.toString() + ": " + dev.name + " - " + dev.jobTitle + "\n"
-=======
-        for (d in developers) {
-            output += d.name + "\n"
->>>>>>> Stashed changes
+
+            for (d in developers) {
+                output += d.name + "\n"
+
+            }
+
+            return output
         }
 
         return output
     }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-
 }

@@ -12,6 +12,9 @@ package ie.setu.controller
 
 import ie.setu.model.Idea
 import ie.setu.utils.ValidationUtils
+import ie.setu.utils.JsonFileStore
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
 
 class IdeaManager
 {
@@ -74,4 +77,28 @@ class IdeaManager
 
 
     fun getListIdeas() : List<Idea> = ideas
+
+    // Save ideas list to JSON using JsonFileStore
+    fun saveToFile(path: String): Boolean {
+        val json = Json { prettyPrint = true }
+        val text = json.encodeToString(ListSerializer(Idea.serializer()), ideas)
+        val store = JsonFileStore()
+        return store.saveText(path, text)
+    }
+
+    // Load ideas list from JSON file
+    fun loadFromFile(path: String): Boolean {
+        val store = JsonFileStore()
+        val text = store.loadText(path) ?: return false
+        return try {
+            val json = Json { ignoreUnknownKeys = true }
+            val list = json.decodeFromString(ListSerializer(Idea.serializer()), text)
+            ideas.clear()
+            ideas.addAll(list)
+            true
+        } catch (e: Exception) {
+            println("Error loading ideas: ${e.message}")
+            false
+        }
+    }
 }

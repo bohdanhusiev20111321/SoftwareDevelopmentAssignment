@@ -73,5 +73,21 @@ class DeveloperManager
             false
         }
     }
+    //  For tests
+    fun numberOfDevelopersForTest(): Int = developers.size
+
+    fun listDevelopersForTest(): String {
+        if (developers.isEmpty()) {
+            return "No developers"
+        }
+
+        var output = ""
+        for (dev in developers) {
+            output += dev.developerId.toString() + ": " + dev.name + " - " + dev.jobTitle + "\n"
+        }
+
+        return output
+    }
+
 
 }

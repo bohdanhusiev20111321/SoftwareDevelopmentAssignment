@@ -21,16 +21,10 @@ class DeveloperManager
     //For store developers
     private val developers = ArrayList<Developer>()
 
-    fun add(dev:Developer) : Boolean
-    {
+    fun add(dev: Developer): Boolean {
         // don't allow duplicate ids
-        for (d in developers) {
-            if (d.developerId == dev.developerId) return false
-        }
-        if(!ValidationUtils.validateJobTitle(dev.jobTitle))
-        {
-            return false
-        }
+        if (developers.any { it.developerId == dev.developerId }) return false
+        if (!ValidationUtils.validateJobTitle(dev.jobTitle)) return false
         developers.add(dev)
         return true
     }
@@ -40,27 +34,15 @@ class DeveloperManager
         return developers.removeIf { it.developerId == id }
     }
 
-    fun update(id: Int, dev: Developer) : Boolean
-    {
-        for (d in developers)
-        {
-            //find developer if exist
-            if (d.developerId == id) {
-                // check job title
-                if (!ValidationUtils.validateJobTitle(dev.jobTitle)) {
-                    return false
-                }
-
-                d.name = dev.name
-                d.jobTitle = dev.jobTitle
-                d.salary = dev.salary
-                d.yearsExperience = dev.yearsExperience
-                d.isRetired = dev.isRetired
-                return true
-            }
-        }
-        //iD not found
-        return false;
+    fun update(id: Int, dev: Developer): Boolean {
+        val found = developers.find { it.developerId == id } ?: return false
+        if (!ValidationUtils.validateJobTitle(dev.jobTitle)) return false
+        found.name = dev.name
+        found.jobTitle = dev.jobTitle
+        found.salary = dev.salary
+        found.yearsExperience = dev.yearsExperience
+        found.isRetired = dev.isRetired
+        return true
     }
     // find a developer by id from a list
     fun findById(id: Int): Developer? = developers.find { it.developerId == id }

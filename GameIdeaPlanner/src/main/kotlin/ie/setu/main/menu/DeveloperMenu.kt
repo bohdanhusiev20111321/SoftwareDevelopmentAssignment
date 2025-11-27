@@ -51,7 +51,7 @@ fun developersMenu(
                 if (list.isEmpty()) {
                     println("No developers.")
                 } else {
-                    for (d in list) println(d)
+                    list.forEach { println(it) }
                 }
             }
             3 -> {
@@ -72,14 +72,28 @@ fun developersMenu(
             }
             5 -> {
                 val id = readInt("Enter id to delete: ")
-                if (devManager.remove(id)) println("Deleted!") else println("Not found.")
+                // check if ideas exist for this developer
+                if (ideaManager.hasIdeasForDeveloper(id)) {
+                    val total = ideaManager.getListIdeas().count { it.developerId == id }
+                    println("Developer $id has $total idea(s). Delete developer and these ideas? (y/n): ")
+                    val answer = readString("").lowercase()
+                    if (answer.startsWith("y")) {
+                        val removed = ideaManager.removeByDeveloper(id)
+                        val ok = devManager.remove(id)
+                        if (ok) println("Developer deleted and $removed ideas removed.") else println("Developer not found.")
+                    } else {
+                        println("Delete aborted.")
+                    }
+                } else {
+                    if (devManager.remove(id)) println("Deleted!") else println("Not found.")
+                }
             }
             6 -> {
                 val jobTitle = readString("Enter jobTitle: ")
-                val result = ArrayList<ie.setu.model.Developer>()
+                val result = arrayListOf<ie.setu.model.Developer>()
                 val all = devManager.getListDevelopers()
                 for (d in all) if (d.jobTitle.equals(jobTitle, true)) result.add(d)
-                if (result.isEmpty()) println("No developers with this jobTitle.") else for (r in result) println(r)
+                if (result.isEmpty()) println("No developers with this jobTitle.") else result.forEach { println(it) }
             }
             0 -> return
             else -> println("Wrong option!")

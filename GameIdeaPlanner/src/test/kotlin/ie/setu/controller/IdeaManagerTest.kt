@@ -40,5 +40,34 @@ class IdeaManagerTest {
         populatedManager.addIdea(idea3)
     }
 
-    
+    @Nested
+    inner class AddTests {
+
+        @Test
+        fun `adding idea increases list size`() {
+            assertEquals(0, emptyManager.getListIdeas().size)
+            assertTrue(emptyManager.addIdea(idea1))
+            assertEquals(1, emptyManager.getListIdeas().size)
+        }
+    }
+
+    @Nested
+    inner class ListAndFindTests {
+
+        @Test
+        fun `empty list returns zero size`() {
+            assertEquals(0, emptyManager.getListIdeas().size)
+        }
+
+        @Test
+        fun `list returns all populated ideas`() {
+            val list = populatedManager.getListIdeas()
+            assertEquals(3, list.size)
+        }
+
+        @Test
+        fun `findById returns correct idea`() {
+            assertEquals(idea2, populatedManager.findById(2))
+        }
+    }
 }

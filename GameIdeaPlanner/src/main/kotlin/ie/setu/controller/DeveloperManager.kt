@@ -16,6 +16,12 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import ie.setu.model.Developer
 
+/**
+ * Simple manager for developers.
+ *
+ * Keeps a list in memory. You can add, remove, update and find developers.
+ * It can also save the list to a file and load it back.
+ */
 class DeveloperManager
 {
     //For store developers

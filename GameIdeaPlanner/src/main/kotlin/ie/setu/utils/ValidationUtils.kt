@@ -1,5 +1,9 @@
 package ie.setu.utils
 
+/**
+ * Simple checks for job title, genre and status.
+ * Use these functions to check user input is allowed.
+ */
 object ValidationUtils
 {
     private val jobTitles = listOf(

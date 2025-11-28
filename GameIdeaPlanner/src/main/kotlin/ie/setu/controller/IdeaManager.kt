@@ -16,6 +16,13 @@ import ie.setu.utils.JsonFileStore
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
+/**
+ * Simple manager for ideas.
+ *
+ * Keeps a list in memory. You can add, remove, update and find ideas.
+ * It can save the list to a file and load it back. Also can remove ideas
+ * that belong to a developer.
+ */
 class IdeaManager
 {
     //For store ideas

@@ -3,6 +3,8 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 plugins {
     kotlin("jvm") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
+  // Plugin for Dokka - KDoc generating tool
+    id("org.jetbrains.dokka") version "1.9.20"
     id("jacoco")
     application
 }
@@ -23,9 +25,7 @@ kotlin {
     jvmToolchain(17)
 }
 
-/* -----------------------------
-   Jacoco settings
-   ----------------------------- */
+
 
 jacoco {
     toolVersion = "0.8.11"
@@ -33,7 +33,7 @@ jacoco {
 
 tasks.test {
     useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport)   // после тестов → отчёт
+    finalizedBy(tasks.jacocoTestReport)   
 }
 
 tasks.jacocoTestReport {
@@ -45,4 +45,9 @@ tasks.jacocoTestReport {
         html.required.set(true)
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
+}
+
+
+tasks.withType(org.jetbrains.dokka.gradle.DokkaTask::class).configureEach {
+    outputDirectory.set(layout.buildDirectory.dir("dokka"))
 }

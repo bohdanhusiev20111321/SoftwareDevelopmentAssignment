@@ -15,6 +15,12 @@ package ie.setu.utils
 import java.io.File
 
 
+/**
+ * Save and load text from a file.
+ *
+ * This store is small and easy to use. It is used to save JSON strings to disk
+ * and read them back. Methods return true on success or null on failure.
+ */
 class JsonFileStore {
 
 

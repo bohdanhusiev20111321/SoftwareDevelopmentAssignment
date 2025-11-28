@@ -51,3 +51,6 @@ tasks.jacocoTestReport {
 tasks.withType(org.jetbrains.dokka.gradle.DokkaTask::class).configureEach {
     outputDirectory.set(layout.buildDirectory.dir("dokka"))
 }
+tasks.build {
+    dependsOn(tasks.dokkaHtml)
+}

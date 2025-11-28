@@ -1,6 +1,9 @@
+import org.gradle.testing.jacoco.tasks.JacocoReport
+
 plugins {
     kotlin("jvm") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
+    id("jacoco")
     application
 }
 
@@ -16,19 +19,30 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 kotlin {
     jvmToolchain(17)
 }
 
+/* -----------------------------
+   Jacoco settings
+   ----------------------------- */
 
+jacoco {
+    toolVersion = "0.8.11"
+}
 
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)   // после тестов → отчёт
+}
 
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
 
-
-
-
-
+    reports {
+        xml.required.set(false)
+        csv.required.set(false)
+        html.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+}
